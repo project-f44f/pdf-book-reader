@@ -1,0 +1,23 @@
+FROM m.daocloud.io/docker.io/golang:1.22.9 AS builder
+
+ENV GOPROXY=https://goproxy.cn,direct
+
+WORKDIR /app
+
+COPY go.mod ./
+COPY main.go ./
+RUN go build -o server
+
+FROM debian:bullseye-slim
+
+WORKDIR /app
+
+COPY --from=builder /app/server .
+
+COPY pdfjs-5.1.91-dist/web ./web
+
+RUN mkdir /app/pdfs
+
+EXPOSE 8000
+
+CMD ["./server"]
