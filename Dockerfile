@@ -8,13 +8,15 @@ COPY go.mod ./
 COPY main.go ./
 RUN go build -o server
 
-FROM debian:bullseye-slim
+FROM m.daocloud.io/docker.io/debian:bullseye-slim
 
 WORKDIR /app
 
 COPY --from=builder /app/server .
 
 COPY pdfjs-5.1.91-dist/web ./web
+
+COPY pdfjs-5.1.91-dist/build ./build
 
 RUN mkdir /app/pdfs
 
