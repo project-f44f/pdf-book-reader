@@ -1,6 +1,7 @@
 FROM m.daocloud.io/docker.io/golang:1.22.9 AS builder
 
-ENV GOPROXY=https://goproxy.cn,direct
+ENV GOPROXY=https://goproxy.cn,direct \
+    CGO_ENABLED=0
 
 WORKDIR /app
 
